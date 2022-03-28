@@ -1,0 +1,70 @@
+{
+    "name": "Getting Started Example",
+    "description": "Build an Extension!",
+    "version": "1.0",
+    "manifest_version": 3,
+    "background": {
+        "service_worker": "background.js",
+        "type": "module"
+    },
+    "permissions": [
+        "storage",
+        "tabs",
+        "activeTab",
+        "scripting",
+        "contextMenus"
+    ],
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "16": "/images/get_started16.png",
+            "32": "/images/get_started32.png",
+            "48": "/images/get_started48.png",
+            "128": "/images/get_started128.png"
+        }
+    },
+    "icons": {
+        "16": "/images/get_started16.png",
+        "32": "/images/get_started32.png",
+        "48": "/images/get_started48.png",
+        "128": "/images/get_started128.png"
+    },
+    "options_page": "editor_test.html",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://*/*",
+                "http://*/*"
+            ],
+            "css": [
+                "lib/spectrum.min.css",
+                "lib/summernote/summernote-lite.css",
+                "lib/fontawesome/css/all.min.css",
+                "content.css"
+            ],
+            "js": [
+                "lib/jquery.min.js",
+                "lib/spectrum.min.js",
+                "lib/summernote/summernote-lite.js",
+                "content.js"
+            ]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "lib/summernote/summernote.min.js.map",
+                "lib/summernote/font/summernote.eot",
+                "lib/summernote/font/summernote.ttf",
+                "lib/summernote/font/summernote.woff",
+                "lib/summernote/font/summernote.woff2",
+                "lib/fontawesome/webfonts/*.ttf",
+                "lib/fontawesome/webfonts/*.woff2"
+            ],
+            "matches": [
+                "https://*/*",
+                "http://*/*"
+            ]
+        }
+    ]
+}
