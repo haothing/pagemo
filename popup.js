@@ -3,19 +3,22 @@
 $("#clearPageMemo").on("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     chrome.storage.sync.remove([tab.url]);
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        function: clearPageMemo,
-    });
+    chrome.tabs.sendMessage(tab.id,
+        { "exeFun": "clearPageMemo" },
+        function (response) { })
 });
 
 $("#clearAllMemo").on("click", async () => {
     chrome.storage.sync.clear();
 });
 
-function clearPageMemo() {
-    $(".pagemo-memo").remove();
-}
+$("#showStorage").on("click", async () => {
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    chrome.storage.sync.get([tab.url], (data) => {
+        console.log(data);
+    });
+});
+
 // When the button is clicked, inject setPageBackgroundColor into current page
 // clearMemo.addEventListener("click", async () => {
 

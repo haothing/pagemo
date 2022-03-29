@@ -1,16 +1,23 @@
-let color = '#0000ff';
-
 chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.set({ color });
-    console.log('Default background color set to %cgreen', `color: ${color}`);
+    console.log('onInstalled');
+});
+// chrome.action.onClicked.addListener((tab) => {
+//     chrome.scripting.executeScript({
+//         target: { tabId: tab.id },
+//         files: ['content.js']
+//     });
+// });
+chrome.webNavigation.onHistoryStateUpdated.addListener(function (details) {
+    chrome.tabs.sendMessage(details.tabId,
+        { "exeFun": "initMemo" },
+        function (response) { })
 });
 
-chrome.action.onClicked.addListener((tab) => {
-    chrome.scripting.executeScript({
-        target: { tabId: tab.id },
-        files: ['content.js']
-    });
-});
+// chrome.webNavigation.onCompleted.addListener(function (details) {
+//     chrome.tabs.sendMessage(details.tabId,
+//         { "exeFun": "initMemo" },
+//         function (response) { })
+// });
 
 chrome.contextMenus.create({
     title: 'New memo',
@@ -18,7 +25,6 @@ chrome.contextMenus.create({
     id: '0',
     contexts: ['all']
 });
-
 chrome.contextMenus.onClicked.addListener(function (itemData, tab) {
     if (tab && itemData.menuItemId === '0') {
         chrome.tabs.sendMessage(tab.id,
@@ -27,4 +33,18 @@ chrome.contextMenus.onClicked.addListener(function (itemData, tab) {
                 // console.log(response.farewell);
             })
     }
+});
+
+var eventList = ['onBeforeNavigate', 'onCreatedNavigationTarget',
+    'onCommitted', 'onCompleted', 'onDOMContentLoaded',
+    'onErrorOccurred', 'onReferenceFragmentUpdated', 'onTabReplaced',
+    'onHistoryStateUpdated'];
+
+eventList.forEach(function (e) {
+    chrome.webNavigation[e].addListener(function (data) {
+        if (typeof data)
+            console.log(e);
+        else
+            console.error(e);
+    });
 });

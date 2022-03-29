@@ -1,4 +1,30 @@
+// get message from background
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        if (request.exeFun) {
+            if (request.exeFun === "newMemo") {
+                sendResponse({ result: "success" });
+                newMemo();
+            }
+
+            if (request.exeFun === "initMemo") {
+                sendResponse({ result: "success" });
+                initMemo();
+            }
+
+            if (request.exeFun === "clearPageMemo") {
+                sendResponse({ result: "success" });
+                initMemo();
+            }
+        }
+    }
+);
+
 function newMemo() {
+    showEditor(-1);
+}
+
+function showEditor(memoIndex) {
 
     var closeBtn = function (context) {
         var ui = $.summernote.ui;
@@ -9,6 +35,7 @@ function newMemo() {
             tooltip: 'Close editor',
             click: function () {
                 $(".pagemo-editor-container").summernote('destroy');
+                $(".pagemo-editor-container").remove();
             }
         });
         return button.render();   // return button as jquery object
@@ -80,6 +107,8 @@ function newMemo() {
     // set custom class name 
     editorDiv.next().addClass("pagemo-editor");
     let pagemoEditor = $(".pagemo-editor");
+    pagemoEditor.data("memoIndex", memoIndex);
+
     // add button
     let btnBar = $("<div class='pagemo-btn-container'></div>");
     let okBtn = $("<button class='pagemo-btn pagemo-btn-ok'>OK</button>");
@@ -109,8 +138,27 @@ function newMemo() {
         div.css({ top: e.clientY - mouseOffset.h, left: e.clientX - mouseOffset.w });
     }
 
-    //var HTMLstring = '<div><p>Hello, world</p><p>Summernote can insert HTML string</p></div>';
-    //editorDiv.summernote('pasteHTML', HTMLstring)
+    // init editor position, size, text, background color when memo index is not -1
+    if (memoIndex >= 0) {
+        const hrefKey = location.href;
+        chrome.storage.sync.get([hrefKey], function (result) {
+            if (memoIndex >= result[hrefKey].length) {
+                return;
+            }
+            const storageData = result[hrefKey][memoIndex];
+            const toolbarHeight = $(".note-toolbar", pagemoEditor)[0].clientHeight;
+            $('.note-editable', pagemoEditor).css('background-color', storageData.bgColor);
+
+            pagemoEditor.width(storageData.size.w);
+            pagemoEditor.height(storageData.size.h + toolbarHeight);
+            pagemoEditor.css("top", storageData.position.top - toolbarHeight);
+            pagemoEditor.css("left", storageData.position.left);
+            editorDiv.summernote('pasteHTML', storageData.textHtml);
+
+            $(".note-editable", pagemoEditor).children().first().remove();
+
+        });
+    }
 
     // replace icon
     $(".note-icon-bold", pagemoEditor).addClass("fa-solid fa-bold").removeClass("note-icon-bold").css("bold",);
@@ -145,25 +193,37 @@ function newMemo() {
             $('#bgcolor_icon').css("color", color);
         }
     });
-
 }
 
 function okBtnClick() {
 
-    const bgColor = $('.note-editable', $(".pagemo-editor")).css('background-color');
-    const size = { w: $(".pagemo-editor").width(), h: $(".pagemo-editor").height() - $(".note-toolbar", $(".pagemo-editor")).height() };
-    const position = { top: $(".pagemo-editor").position().top, left: $(".pagemo-editor").position().left };
+    const whOffset = 20;
+    const editor = $(".pagemo-editor");
+    const bgColor = $('.note-editable', editor).css('background-color');
+    const toolbarHeight = $(".note-toolbar", editor)[0].clientHeight;
+    const size = {
+        w: editor[0].offsetWidth,
+        h: editor[0].offsetHeight - toolbarHeight
+    };
+    const position = { top: editor.position().top + toolbarHeight, left: editor.position().left };
     const textHtml = $(".pagemo-editor-container").summernote('code');
 
     const hrefKey = location.href;
     chrome.storage.sync.get([hrefKey], function (result) {
 
-        let memoIndex = 0;
-        if (!result[hrefKey]) {
-            chrome.storage.sync.set({ [hrefKey]: [{ bgColor: bgColor, size: size, position: position, textHtml: textHtml }] });
+        // add new memo when editor's data memoIndex is -1
+        let memoIndex = parseInt(editor.data("memoIndex"));
+        if (memoIndex == -1) {
+            if (!result[hrefKey]) {
+                chrome.storage.sync.set({ [hrefKey]: [{ bgColor: bgColor, size: size, position: position, textHtml: textHtml }] });
+            } else {
+                memoIndex = result[hrefKey].length;
+                result[hrefKey].push({ bgColor: bgColor, size: size, position: position, textHtml: textHtml });
+                chrome.storage.sync.set({ [hrefKey]: result[hrefKey] });
+            }
         } else {
-            memoIndex = result[hrefKey].length;
-            result[hrefKey].push({ bgColor: bgColor, size: size, position: position, textHtml: textHtml });
+            // edit memoIndex memo when editor's data memoIndex is not -1
+            result[hrefKey][memoIndex] = { bgColor: bgColor, size: size, position: position, textHtml: textHtml };
             chrome.storage.sync.set({ [hrefKey]: result[hrefKey] });
         }
 
@@ -173,22 +233,25 @@ function okBtnClick() {
         // make memo display div
         let memoContainer = $("<div class='pagemo-memo' id='pagemoMemo" + memoIndex + "'></div>");
         memoContainer.appendTo($("body"));
-        memoContainer.on('mousedown', pageMemoMouseDown);
-        window.addEventListener('mouseup', pageMemoMouseUp, false);
-
-        memoContainer.css({
-            top: position.top,
-            left: position.left
-        });
 
         let memoDiv = $("<div class='pagemo-memo-style'></div>");
-        memoDiv.appendTo(memoContainer);
         memoDiv.html(textHtml);
         memoDiv.css({
-            width: size.w,
-            height: size.h,
             backgroundColor: bgColor
         });
+        memoDiv.appendTo(memoContainer);
+        memoContainer.css({
+            top: position.top,
+            left: position.left,
+            width: size.w,
+            height: size.h
+        });
+
+        memoContainer.on('mousedown', pageMemoMouseDown);
+        memoContainer.on('mouseup', pageMemoMouseUp);
+        memoContainer.on('dblclick', pageMemoEdit);
+
+
     });
 
 }
@@ -210,7 +273,7 @@ function pageMemoMouseUp(e) {
     } else {
         const hrefKey = location.href;
         chrome.storage.sync.get([hrefKey], function (result) {
-            if (index >= result[hrefKey].length) {
+            if ($("#" + div.attr("id")).length === 0 || index >= result[hrefKey].length) {
                 return;
             }
             result[hrefKey][index].size = { w: $(".pagemo-memo-style", div).width(), h: $(".pagemo-memo-style", div).height() };
@@ -239,39 +302,54 @@ function pageMemoMove(e) {
     div.css({ top: e.clientY - div.data("mouseOffset").h, left: e.clientX - div.data("mouseOffset").w });
 }
 
-// get message from background
-chrome.runtime.onMessage.addListener(
-    function (request, sender, sendResponse) {
-        if (request.exeFun && request.exeFun === "newMemo") {
-            sendResponse({ result: "success" });
-            newMemo();
-        }
-    }
-);
+// set memo editable when double click
+function pageMemoEdit(e) {
 
+    let div = $(e.target);
+    if (div.hasClass("pagemo-memo-style")) {
+        div = div.parent();
+    }
+    const index = parseInt(div.attr("id").replace("pagemoMemo", ""));
+    if (isNaN(index)) {
+        return;
+    } else {
+        showEditor(index);
+        div.remove();
+    }
+}
 // init memo div to page
-chrome.storage.sync.get([location.href], function (result) {
-    let memos = result[location.href];
-    for (let i = 0; memos && i < memos.length; i++) {
+function initMemo() {
+    clearPageMemo();
+    chrome.storage.sync.get([location.href], function (result) {
+        let memos = result[location.href];
+        for (let i = 0; memos && i < memos.length; i++) {
 
-        // make memo display div
-        let memoContainer = $("<div class='pagemo-memo' id='pagemoMemo" + i + "'></div>");
-        memoContainer.appendTo($("body"));
-        memoContainer.on('mousedown', pageMemoMouseDown);
-        window.addEventListener('mouseup', pageMemoMouseUp, false);
+            // make memo display div
+            let memoContainer = $("<div class='pagemo-memo' id='pagemoMemo" + i + "'></div>");
+            memoContainer.appendTo($("body"));
+            memoContainer.on('mousedown', pageMemoMouseDown);
+            memoContainer.on('mouseup', pageMemoMouseUp);
+            memoContainer.on('dblclick', pageMemoEdit);
 
-        memoContainer.css({
-            top: memos[i].position.top,
-            left: memos[i].position.left
-        });
+            memoContainer.css({
+                top: memos[i].position.top,
+                left: memos[i].position.left,
+                width: memos[i].size.w,
+                height: memos[i].size.h
+            });
 
-        let memoDiv = $("<div class='pagemo-memo-style'></div>");
-        memoDiv.appendTo(memoContainer);
-        memoDiv.html(memos[i].textHtml);
-        memoDiv.css({
-            width: memos[i].size.w,
-            height: memos[i].size.h,
-            backgroundColor: memos[i].bgColor
-        });
-    }
-});
+            let memoDiv = $("<div class='pagemo-memo-style'></div>");
+            memoDiv.appendTo(memoContainer);
+            memoDiv.html(memos[i].textHtml);
+            memoDiv.css({
+                backgroundColor: memos[i].bgColor
+            });
+        }
+    });
+}
+
+function clearPageMemo() {
+    $(".pagemo-memo").remove();
+}
+
+initMemo();

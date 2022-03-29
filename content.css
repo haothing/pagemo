@@ -73,9 +73,12 @@
 }
 .pagemo-memo-style {
   position: relative;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
   overflow: auto;
   resize: both;
-  margin: 4px;
+  margin: 0px;
   padding: 6px 10px;
   border: 1px solid #ccc;
   box-shadow: 0 0 4px #0003, 0 0 2px #0003;
