@@ -22,6 +22,25 @@ chrome.runtime.onMessage.addListener(
 );
 
 function newMemo() {
+
+    // close current editor when open new editor
+    let editor = $(".pagemo-editor");
+    if (editor.length > 0) {
+        let memoIndex = editor.data("memoIndex");
+        $(".pagemo-editor-container").summernote('destroy');
+        $(".pagemo-editor-container").remove();
+
+        if (memoIndex >= 0) {
+            const hrefKey = location.href;
+            chrome.storage.sync.get([hrefKey], function (result) {
+                if (memoIndex >= result[hrefKey].length) {
+                    return;
+                }
+                drawMemo(memoIndex, result[hrefKey][memoIndex]);
+            });
+        }
+    }
+
     showEditor(-1);
 }
 
@@ -341,7 +360,7 @@ function pageMemoMouseDown(e) {
 }
 function pageMemoMove(e) {
     var div = $("body").data("pagemoMoveTargetMemo");
-    console.log(div.data("mouseOffset"), div.height(), div.width())
+    // console.log(div.data("mouseOffset"), div.height(), div.width())
     div.css({ top: e.pageY - div.data("mouseOffset").h, left: e.pageX - div.data("mouseOffset").w });
 }
 

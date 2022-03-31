@@ -1,6 +1,6 @@
 // Initialize butotn with users's prefered color
 //let clearMemo = document.getElementById("clearMemo");
-$("#clearPageMemo").on("click", async () => {
+$("#deletePageNotes").on("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     chrome.storage.sync.remove([tab.url]);
     chrome.tabs.sendMessage(tab.id,
@@ -8,11 +8,21 @@ $("#clearPageMemo").on("click", async () => {
         function (response) { })
 });
 
-$("#clearAllMemo").on("click", async () => {
+$("#addNewNotes").on("click", async () => {
+    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    chrome.tabs.sendMessage(tab.id,
+        { "exeFun": "newMemo" },
+        function (response) {
+            // console.log(response.farewell);
+        })
+});
+
+$("#showAllNotes").on("click", async () => {
     chrome.storage.sync.clear();
 });
 
-$("#showStorage").on("click", async () => {
+// TODO change to buy me a coffee
+$("#buyMeACoffee").on("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     chrome.storage.sync.get([tab.url], (data) => {
         console.log(data);

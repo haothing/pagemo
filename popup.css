@@ -1,0 +1,45 @@
+html {
+  min-width: 210px;
+}
+body {
+  margin: 0;
+}
+.popup-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.btn-container {
+  cursor: pointer;
+  background-color: rgb(25, 118, 210, 1);
+  transition: background-color 0.4s;
+  padding: 12px 12px;
+  font-family: Arial, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Helvetica,
+    sans-serif;
+  font-size: 15px;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+.btn-container:hover {
+  background-color: rgb(25, 118, 210, 0.6);
+  transition: background-color 0.8s;
+}
+.btn-container i {
+  font-size: 12px;
+  margin: auto;
+  flex: 0 0 22px;
+  text-align: center;
+}
+.popup-menu-text {
+  margin-left: 8px;
+  flex: 1 1 auto;
+}
+.coffee-icon {
+  font-size: 16px;
+  margin: auto;
+  flex: 0 0 22px;
+  margin-top: -2px;
+}

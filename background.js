@@ -35,16 +35,16 @@ chrome.contextMenus.onClicked.addListener(function (itemData, tab) {
     }
 });
 
-var eventList = ['onBeforeNavigate', 'onCreatedNavigationTarget',
-    'onCommitted', 'onCompleted', 'onDOMContentLoaded',
-    'onErrorOccurred', 'onReferenceFragmentUpdated', 'onTabReplaced',
-    'onHistoryStateUpdated'];
+// var eventList = ['onBeforeNavigate', 'onCreatedNavigationTarget',
+//     'onCommitted', 'onCompleted', 'onDOMContentLoaded',
+//     'onErrorOccurred', 'onReferenceFragmentUpdated', 'onTabReplaced',
+//     'onHistoryStateUpdated'];
 
-eventList.forEach(function (e) {
-    chrome.webNavigation[e].addListener(function (data) {
-        if (typeof data)
-            console.log(e);
-        else
-            console.error(e);
-    });
-});
+// eventList.forEach(function (e) {
+//     chrome.webNavigation[e].addListener(function (data) {
+//         if (typeof data)
+//             console.log(e);
+//         else
+//             console.error(e);
+//     });
+// });
