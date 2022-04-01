@@ -5,7 +5,9 @@ $("#deletePageNotes").on("click", async () => {
     chrome.storage.sync.remove([tab.url]);
     chrome.tabs.sendMessage(tab.id,
         { "exeFun": "clearPageMemo" },
-        function (response) { })
+        function (response) {
+            window.close();
+        })
 });
 
 $("#addNewNotes").on("click", async () => {
@@ -13,12 +15,12 @@ $("#addNewNotes").on("click", async () => {
     chrome.tabs.sendMessage(tab.id,
         { "exeFun": "newMemo" },
         function (response) {
-            // console.log(response.farewell);
+            window.close();
         })
 });
 
 $("#showAllNotes").on("click", async () => {
-    chrome.storage.sync.clear();
+    chrome.tabs.create({ url: "spa/index.html" });
 });
 
 // TODO change to buy me a coffee
@@ -26,6 +28,7 @@ $("#buyMeACoffee").on("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     chrome.storage.sync.get([tab.url], (data) => {
         console.log(data);
+        window.close();
     });
 });
 

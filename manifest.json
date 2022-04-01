@@ -21,21 +21,19 @@
     ],
     "action": {
         "default_popup": "popup.html",
-        "default_title": "The detail of pagemo.",
+        "default_title": "Add memo to page!",
         "default_icon": {
-            "16": "/images/get_started16.png",
-            "32": "/images/get_started32.png",
-            "48": "/images/get_started48.png",
-            "128": "/images/get_started128.png"
+            "16": "/images/start_32.png",
+            "48": "/images/start_32.png",
+            "128": "/images/start_32.png"
         }
     },
     "icons": {
-        "16": "/images/get_started16.png",
-        "32": "/images/get_started32.png",
-        "48": "/images/get_started48.png",
-        "128": "/images/get_started128.png"
+        "16": "/images/start_32.png",
+        "48": "/images/start_32.png",
+        "128": "/images/start_32.png"
     },
-    "options_page": "editor_test.html",
+    "options_page": "spa/index.html",
     "content_scripts": [
         {
             "matches": [
