@@ -20,7 +20,8 @@ $("#addNewNotes").on("click", async () => {
 });
 
 $("#showAllNotes").on("click", async () => {
-    chrome.tabs.create({ url: "spa/index.html" });
+    chrome.runtime.openOptionsPage();
+    // chrome.tabs.create({ url: "options/dist/spa/index.html" });
 });
 
 // TODO change to buy me a coffee
@@ -28,7 +29,6 @@ $("#buyMeACoffee").on("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     chrome.storage.sync.get([tab.url], (data) => {
         console.log(data);
-        window.close();
     });
 });
 

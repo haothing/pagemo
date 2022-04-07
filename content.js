@@ -16,8 +16,9 @@ chrome.runtime.onMessage.addListener(
                 sendResponse({ result: "success" });
                 initMemo();
             }
+        } else {
+            sendResponse({});
         }
-        return true;
     }
 );
 
@@ -46,6 +47,8 @@ function newMemo() {
 
 function showEditor(memoIndex) {
 
+    const hrefKey = location.href;
+
     var closeBtn = function (context) {
         // create button
         var ui = $.summernote.ui;
@@ -55,7 +58,6 @@ function showEditor(memoIndex) {
             click: function () {
                 $(".pagemo-editor-container").summernote('destroy');
                 $(".pagemo-editor-container").remove();
-                const hrefKey = location.href;
                 chrome.storage.sync.get([hrefKey], function (result) {
                     if (memoIndex >= result[hrefKey].length) {
                         return;
@@ -76,7 +78,6 @@ function showEditor(memoIndex) {
             click: function () {
                 $(".pagemo-editor-container").summernote('destroy');
                 $(".pagemo-editor-container").remove();
-                const hrefKey = location.href;
                 chrome.storage.sync.get([hrefKey], function (result) {
                     if (memoIndex >= result[hrefKey].length) {
                         return;
@@ -193,7 +194,6 @@ function showEditor(memoIndex) {
 
     // init editor position, size, text, background color when memo index is not -1
     if (memoIndex >= 0) {
-        const hrefKey = location.href;
         chrome.storage.sync.get([hrefKey], function (result) {
             if (memoIndex >= result[hrefKey].length) {
                 return;

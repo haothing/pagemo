@@ -23,17 +23,17 @@
         "default_popup": "popup.html",
         "default_title": "Add memo to page!",
         "default_icon": {
-            "16": "/images/start_32.png",
-            "48": "/images/start_32.png",
-            "128": "/images/start_32.png"
+            "16": "/images/start_48.png",
+            "48": "/images/start_48.png",
+            "128": "/images/start_128.png"
         }
     },
     "icons": {
-        "16": "/images/start_32.png",
-        "48": "/images/start_32.png",
-        "128": "/images/start_32.png"
+        "16": "/images/start_48.png",
+        "48": "/images/start_48.png",
+        "128": "/images/start_128.png"
     },
-    "options_page": "spa/index.html",
+    "options_page": "/options/index.html",
     "content_scripts": [
         {
             "matches": [
