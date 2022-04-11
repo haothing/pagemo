@@ -1,80 +1,80 @@
 <template>
   <q-page class="container">
-    <div class="list-header">11</div>
-    <div class="list-body" v-for="item in memoData" :key="item.id">
-      <q-toolbar class="bg-primary text-white shadow-2">
-        <q-toolbar-title>{{ item.url }}</q-toolbar-title>
-      </q-toolbar>
-      <q-list bordered>
-        <q-item v-for="memo in item.memoList" :key="memo.id">
-          <q-item-section>
-            <q-item-label class="memo-item-text">{{ memo.text }}</q-item-label>
-          </q-item-section>
-
-          <q-item-section side>
-            <div class="text-grey-8 q-gutter-xs">
-              <q-btn
-                size="10px"
-                padding="12px"
-                flat
-                dense
-                round
-                icon="fa-solid fa-pen"
-              />
-              <q-btn
-                size="10px"
-                padding="12px"
-                flat
-                dense
-                round
-                icon="fa-solid fa-trash-can"
-              />
-              <q-btn
-                size="10px"
-                padding="12px"
-                flat
-                dense
-                round
-                icon="fa-solid fa-arrow-up-right-from-square"
-              />
-            </div>
-          </q-item-section>
-        </q-item>
-      </q-list>
+    <div class="list-header">
+      <p>
+        You can use this tool to add notes to any web page, on this page you can
+        see all the added notes.
+      </p>
+      <p>
+        Thank you so much for using this tool, and if this helps you please buy
+        me a coffee let me fix bugs and add some cool new features.☕️😄💪
+      </p>
     </div>
+    <q-list
+      bordered
+      separator
+      class="list-body"
+      v-for="item in memoData"
+      :key="item.id"
+    >
+      <q-item class="memo-url bg-primary">
+        <q-item-section>
+          <q-item-label class="text-h5 text-grey-1">{{
+            item.title
+          }}</q-item-label>
+          <q-item-label class="text-grey-4" caption>{{
+            item.url
+          }}</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <div class="text-grey-1 q-gutter-xs text-subtitle1">
+            <q-btn
+              size="10px"
+              padding="12px"
+              flat
+              dense
+              round
+              icon="fa-solid fa-arrow-up-right-from-square"
+              @click="openSite(item.url)"
+            />
+            <q-btn
+              size="10px"
+              padding="12px"
+              flat
+              dense
+              round
+              icon="fa-solid fa-trash-can"
+              @click="deleteMemo(item.id)"
+            />
+          </div>
+        </q-item-section>
+      </q-item>
+
+      <q-item v-for="memo in item.memoList" :key="memo.id">
+        <q-separator inset />
+        <q-item-section>
+          <q-item-label class="memo-item-text">{{ memo.text }}</q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <div class="text-grey-8 q-gutter-xs">
+            <q-btn
+              size="10px"
+              padding="12px"
+              flat
+              dense
+              round
+              icon="fa-solid fa-trash-can"
+              @click="deleteMemo(item.id, memo.id)"
+            />
+          </div>
+        </q-item-section>
+      </q-item>
+    </q-list>
   </q-page>
 </template>
 
 <script>
 import { defineComponent } from "vue";
-
-const contacts = [
-  {
-    id: 1,
-    name: "Ruddy Jedrzej",
-    email: "rjedrzej0@discuz.net",
-    letter: "R",
-  },
-  {
-    id: 2,
-    name: "Mallorie Alessandrini",
-    email: "malessandrini1@marketwatch.com",
-    letter: "M",
-  },
-  {
-    id: 3,
-    name: "Elisabetta Wicklen",
-    email: "ewicklen2@microsoft.com",
-    letter: "E",
-  },
-  {
-    id: 4,
-    name: "Seka Fawdrey",
-    email: "sfawdrey3@wired.com",
-    letter: "S",
-  },
-];
-
 export default defineComponent({
   name: "IndexPage",
   //   setup() {
@@ -94,53 +94,117 @@ export default defineComponent({
     init: function () {
       // dummy source
       const result = {
-        "https://www.google.com/finance/quote/7453:TYO?window=5Y": [
-          {
-            id: 1,
-            bgColor: "rgb(244, 204, 204)",
-            position: {
-              left: 954,
-              top: 583.0000305175781,
+        "https://www.google.com/finance/quote/7453:TYO?window=5Y": {
+          title: "my site one",
+          memoList: [
+            {
+              id: 1,
+              bgColor: "rgb(244, 204, 204)",
+              position: {
+                left: 954,
+                top: 583.0000305175781,
+              },
+              size: {
+                h: 74,
+                w: 200,
+              },
+              text: "期末配当金　毎年8月末日",
+              textHtml:
+                '<p><span style="color: rgb(51, 51, 51); font-family: 游ゴシック, YuGothic, &quot;Hiragino Kaku Gothic ProN&quot;, Helvetica, Meiryo, sans-serif; font-size: 14px;">期末配当金　毎年8月末日</span><br style="-webkit-font-smoothing: antialiased; box-sizing: border-box; color: rgb(51, 51, 51); font-family: 游ゴシック, YuGothic, &quot;Hiragino Kaku Gothic ProN&quot;, Helvetica, Meiryo, sans-serif; font-size: 14px;"><span style="color: rgb(51, 51, 51); font-family: 游ゴシック, YuGothic, &quot;Hiragino Kaku Gothic ProN&quot;, Helvetica, Meiryo, sans-serif; font-size: 14px;">中間配当金　毎年2月末日</span><br></p>',
             },
-            size: {
-              h: 74,
-              w: 200,
+            {
+              id: 2,
+              bgColor: "rgb(244, 204, 204)",
+              position: {
+                left: 954,
+                top: 583.0000305175781,
+              },
+              size: {
+                h: 74,
+                w: 200,
+              },
+              text: "期末1111",
+              textHtml:
+                '<p><span style="color: rgb(51, 51, 51); font-family: 游ゴシック, YuGothic, &quot;Hiragino Kaku Gothic ProN&quot;, Helvetica, Meiryo, sans-serif; font-size: 14px;">期末配当金　毎年8月末日</span><br style="-webkit-font-smoothing: antialiased; box-sizing: border-box; color: rgb(51, 51, 51); font-family: 游ゴシック, YuGothic, &quot;Hiragino Kaku Gothic ProN&quot;, Helvetica, Meiryo, sans-serif; font-size: 14px;"><span style="color: rgb(51, 51, 51); font-family: 游ゴシック, YuGothic, &quot;Hiragino Kaku Gothic ProN&quot;, Helvetica, Meiryo, sans-serif; font-size: 14px;">中間配当金　毎年2月末日</span><br></p>',
             },
-            text: "期末配当金　毎年8月末日",
-            textHtml:
-              '<p><span style="color: rgb(51, 51, 51); font-family: 游ゴシック, YuGothic, &quot;Hiragino Kaku Gothic ProN&quot;, Helvetica, Meiryo, sans-serif; font-size: 14px;">期末配当金　毎年8月末日</span><br style="-webkit-font-smoothing: antialiased; box-sizing: border-box; color: rgb(51, 51, 51); font-family: 游ゴシック, YuGothic, &quot;Hiragino Kaku Gothic ProN&quot;, Helvetica, Meiryo, sans-serif; font-size: 14px;"><span style="color: rgb(51, 51, 51); font-family: 游ゴシック, YuGothic, &quot;Hiragino Kaku Gothic ProN&quot;, Helvetica, Meiryo, sans-serif; font-size: 14px;">中間配当金　毎年2月末日</span><br></p>',
-          },
-        ],
-        "https://www.google.com/finance/quote/REIT:INDEXTYO": [
-          {
-            id: 2,
-            bgColor: "rgb(252, 229, 205)",
-            position: {
-              left: 654,
-              top: 328,
+          ],
+        },
+        "https://www.google.com/finance/quote/REIT:INDEXTYO": {
+          title: "my site two",
+          memoList: [
+            {
+              id: 1,
+              bgColor: "rgb(252, 229, 205)",
+              position: {
+                left: 654,
+                top: 328,
+              },
+              size: {
+                h: 36,
+                w: 143,
+              },
+              text: "2080で売る",
+              textHtml: "<p>2080で売る</p>",
             },
-            size: {
-              h: 36,
-              w: 143,
-            },
-            text: "2080で売る",
-            textHtml: "<p>2080で売る</p>",
-          },
-        ],
+          ],
+        },
       };
-
-      // chrome.storage.sync.get(null, function (result) {
-      // console.log(result);
-      let index = 0;
-      for (let key in result) {
-        this.memoData.push({
-          id: index,
-          url: key,
-          memoList: result[key],
-        });
-        index += 1;
-      }
-      // });
+      chrome.storage.sync.get(null, (result) => {
+        console.log(result);
+        let memoData = [];
+        let index = 0;
+        for (let key in result) {
+          memoData.push({
+            id: index,
+            url: key,
+            title: result[key]["title"],
+            memoList: result[key]["memoList"],
+          });
+          index += 1;
+        }
+        this.memoData = memoData;
+      });
+    },
+    openSite: function (url) {
+      window.open(url);
+    },
+    deleteMemo: function (itemId, memoId) {
+      let memoData = this.memoData;
+      chrome.storage.sync.get(null, (result) => {
+        console.log(itemId, memoId, result);
+        if (memoId != null) {
+          for (let i = 0; i < memoData.length; i++) {
+            if (memoData[i].id == itemId) {
+              for (let j = 0; j < memoData[i].memoList.length; j++) {
+                if (memoData[i].memoList[j].id == memoId) {
+                  // delete memo from chrome storage
+                  result[memoData[i].url].memoList.splice(j, 1);
+                  if (result[memoData[i].url].memoList.length == 0) {
+                    chrome.storage.sync.remove([memoData[i].url]);
+                    // delete memo from local var
+                    memoData.splice(i, 1);
+                  } else {
+                    chrome.storage.sync.set({
+                      [memoData[i].url]: result[memoData[i].url],
+                    });
+                    // delete memo from local var
+                    memoData[i].memoList.splice(j, 1);
+                  }
+                }
+              }
+            }
+          }
+        } else {
+          for (let i = 0; i < memoData.length; i++) {
+            if (memoData[i].id == itemId) {
+              // delete memo from chrome storage
+              chrome.storage.sync.remove([memoData[i].url]);
+              // delete memo from local var
+              memoData.splice(i, 1);
+            }
+          }
+        }
+      });
     },
   },
 });
@@ -153,6 +217,8 @@ export default defineComponent({
 .list-body {
   width: 60%;
   margin: auto;
+}
+.memo-url {
 }
 .memo-item-text {
   font-size: 16px;

@@ -33,6 +33,10 @@
         "48": "/images/start_48.png",
         "128": "/images/start_128.png"
     },
+    "optional_permissions": [
+        "tabs",
+        "storage"
+    ],
     "options_page": "/options/index.html",
     "content_scripts": [
         {

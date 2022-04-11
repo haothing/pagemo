@@ -34,10 +34,10 @@ function newMemo() {
         if (memoIndex >= 0) {
             const hrefKey = location.href;
             chrome.storage.sync.get([hrefKey], function (result) {
-                if (memoIndex >= result[hrefKey].length) {
+                if (memoIndex >= result[hrefKey]["memoList"].length) {
                     return;
                 }
-                drawMemo(memoIndex, result[hrefKey][memoIndex]);
+                drawMemo(memoIndex, result[hrefKey]["memoList"][memoIndex]);
             });
         }
     }
@@ -59,10 +59,10 @@ function showEditor(memoIndex) {
                 $(".pagemo-editor-container").summernote('destroy');
                 $(".pagemo-editor-container").remove();
                 chrome.storage.sync.get([hrefKey], function (result) {
-                    if (memoIndex >= result[hrefKey].length) {
+                    if (memoIndex >= result[hrefKey]["memoList"].length) {
                         return;
                     }
-                    drawMemo(memoIndex, result[hrefKey][memoIndex]);
+                    drawMemo(memoIndex, result[hrefKey]["memoList"][memoIndex]);
                 });
             }
         });
@@ -79,10 +79,10 @@ function showEditor(memoIndex) {
                 $(".pagemo-editor-container").summernote('destroy');
                 $(".pagemo-editor-container").remove();
                 chrome.storage.sync.get([hrefKey], function (result) {
-                    if (memoIndex >= result[hrefKey].length) {
+                    if (memoIndex >= result[hrefKey]["memoList"].length) {
                         return;
                     }
-                    result[hrefKey].splice(memoIndex, 1);
+                    result[hrefKey]["memoList"].splice(memoIndex, 1);
                     chrome.storage.sync.set({ [hrefKey]: result[hrefKey] }, () => {
                         initMemo();
                     });
@@ -195,10 +195,10 @@ function showEditor(memoIndex) {
     // init editor position, size, text, background color when memo index is not -1
     if (memoIndex >= 0) {
         chrome.storage.sync.get([hrefKey], function (result) {
-            if (memoIndex >= result[hrefKey].length) {
+            if (memoIndex >= result[hrefKey]["memoList"].length) {
                 return;
             }
-            const storageData = result[hrefKey][memoIndex];
+            const storageData = result[hrefKey]["memoList"][memoIndex];
             $('.note-editable', pagemoEditor).css('background-color', storageData.bgColor);
 
             pagemoEditor.show();
@@ -271,16 +271,30 @@ function okBtnClick() {
         let memoIndex = parseInt(editor.data("memoIndex"));
         if (memoIndex == -1) {
             if (!result[hrefKey]) {
-                chrome.storage.sync.set({ [hrefKey]: [{ bgColor: bgColor, size: size, position: position, textHtml: textHtml }] });
+                memoIndex = 0;
+                chrome.storage.sync.set({
+                    [hrefKey]: {
+                        title: document.title,
+                        memoList: [{
+                            id: memoIndex, bgColor: bgColor, size: size, position: position, text: $(textHtml).text(), textHtml: textHtml
+                        }]
+                    }
+                });
             } else {
-                memoIndex = result[hrefKey].length;
-                result[hrefKey].push({ bgColor: bgColor, size: size, position: position, textHtml: textHtml });
+                memoIndex = result[hrefKey]["memoList"].length;
+                result[hrefKey]["title"] = document.title;
+                result[hrefKey]["memoList"].push({
+                    id: memoIndex, bgColor: bgColor, size: size, position: position, text: $(textHtml).text(), textHtml: textHtml
+                });
                 chrome.storage.sync.set({ [hrefKey]: result[hrefKey] });
             }
-            memoIndex = 0;
+
         } else {
             // edit memoIndex memo when editor's data memoIndex is not -1
-            result[hrefKey][memoIndex] = { bgColor: bgColor, size: size, position: position, textHtml: textHtml };
+            result[hrefKey]["title"] = document.title;
+            result[hrefKey]["memoList"][memoIndex] = {
+                id: memoIndex, bgColor: bgColor, size: size, position: position, text: $(textHtml).text(), textHtml: textHtml
+            };
             chrome.storage.sync.set({ [hrefKey]: result[hrefKey] });
         }
 
@@ -325,15 +339,15 @@ function pageMemoMouseUp(e) {
     } else {
         const hrefKey = location.href;
         chrome.storage.sync.get([hrefKey], function (result) {
-            if ($("#" + div.attr("id")).length === 0 || index >= result[hrefKey].length) {
+            if ($("#" + div.attr("id")).length === 0 || index >= result[hrefKey]["memoList"].length) {
                 return;
             }
 
             const newW = div.children().first()[0].offsetWidth;
             const newH = div.children().first()[0].offsetHeight
 
-            result[hrefKey][index].size = { w: newW, h: newH };
-            result[hrefKey][index].position = {
+            result[hrefKey]["memoList"][index].size = { w: newW, h: newH };
+            result[hrefKey]["memoList"][index].position = {
                 top: div.position().top,
                 left: div.position().left
             };
@@ -375,10 +389,10 @@ function pageMemoEdit(e) {
         $(".pagemo-editor-container").remove();
         const hrefKey = location.href;
         chrome.storage.sync.get([hrefKey], function (result) {
-            if (memoIndex >= result[hrefKey].length) {
+            if (memoIndex >= result[hrefKey]["memoList"].length) {
                 return;
             }
-            drawMemo(memoIndex, result[hrefKey][memoIndex]);
+            drawMemo(memoIndex, result[hrefKey]["memoList"][memoIndex]);
         });
     }
 
@@ -397,9 +411,11 @@ function pageMemoEdit(e) {
 function initMemo() {
     clearPageMemo();
     chrome.storage.sync.get([location.href], function (result) {
-        let memos = result[location.href];
-        for (let i = 0; memos && i < memos.length; i++) {
-            drawMemo("pagemoMemo" + i, memos[i]);
+        if (Object.keys(result).length != 0) {
+            let memos = result[location.href]["memoList"];
+            for (let i = 0; memos && i < memos.length; i++) {
+                drawMemo("pagemoMemo" + i, memos[i]);
+            }
         }
     });
 }

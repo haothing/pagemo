@@ -27,7 +27,7 @@ $("#showAllNotes").on("click", async () => {
 // TODO change to buy me a coffee
 $("#buyMeACoffee").on("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    chrome.storage.sync.get([tab.url], (data) => {
+    chrome.storage.sync.get(null, (data) => {
         console.log(data);
     });
 });

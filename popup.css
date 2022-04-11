@@ -11,7 +11,7 @@ body {
 }
 .btn-container {
   cursor: pointer;
-  background-color: rgb(25, 118, 210, 1);
+  background-color: #1976d2;
   transition: background-color 0.4s;
   padding: 12px 12px;
   font-family: Arial, -apple-system, "Segoe UI", Roboto, Oxygen, Ubuntu,
