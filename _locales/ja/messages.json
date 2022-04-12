@@ -1,0 +1,20 @@
+{
+    "application_title": {
+        "message": "PageMo"
+    },
+    "application_description": {
+        "message": "ウェブページにメモ追加"
+    },
+    "popup_menu_new_note": {
+        "message": "メモを追加"
+    },
+    "popup_menu_delete_page_notes": {
+        "message": "当ページメモを削除"
+    },
+    "popup_menu_show_options": {
+        "message": "メモ一覧を表示"
+    },
+    "popup_menu_buy_me_coffee": {
+        "message": "Buy Me A Coffee"
+    }
+}

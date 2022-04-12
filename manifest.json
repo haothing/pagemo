@@ -1,7 +1,8 @@
 {
-    "name": "Getting Started Example",
-    "description": "Build an Extension!",
+    "name": "__MSG_application_title__",
+    "description": "__MSG_application_description__",
     "version": "1.0",
+    "default_locale": "en",
     "manifest_version": 3,
     "background": {
         "service_worker": "background.js",
@@ -33,10 +34,6 @@
         "48": "/images/start_48.png",
         "128": "/images/start_128.png"
     },
-    "optional_permissions": [
-        "tabs",
-        "storage"
-    ],
     "options_page": "/options/index.html",
     "content_scripts": [
         {

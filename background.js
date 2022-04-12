@@ -20,7 +20,7 @@ chrome.webNavigation.onHistoryStateUpdated.addListener(function (details) {
 // });
 
 chrome.contextMenus.create({
-    title: 'New memo',
+    title: chrome.i18n.getMessage("popup_menu_new_note"),
     type: 'normal',
     id: '0',
     contexts: ['all']

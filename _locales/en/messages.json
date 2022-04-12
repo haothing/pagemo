@@ -1,0 +1,20 @@
+{
+    "application_title": {
+        "message": "PageMo"
+    },
+    "application_description": {
+        "message": "The tool to add notes to any web page you like."
+    },
+    "popup_menu_new_note": {
+        "message": "Add New Note"
+    },
+    "popup_menu_delete_page_notes": {
+        "message": "Delete Page Notes"
+    },
+    "popup_menu_show_options": {
+        "message": "Show Notes List"
+    },
+    "popup_menu_buy_me_coffee": {
+        "message": "Buy Me A Coffee"
+    }
+}

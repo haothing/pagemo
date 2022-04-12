@@ -1,5 +1,9 @@
-// Initialize butotn with users's prefered color
-//let clearMemo = document.getElementById("clearMemo");
+// set language in popup html
+$("#addNewNote").text(chrome.i18n.getMessage("popup_menu_new_note"));
+$("#deletePageNotes").text(chrome.i18n.getMessage("popup_menu_delete_page_notes"));
+$("#showOptions").text(chrome.i18n.getMessage("popup_menu_show_options"));
+$("#buyMeACoffee").text(chrome.i18n.getMessage("popup_menu_buy_me_coffee"));
+
 $("#deletePageNotes").on("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     chrome.storage.sync.remove([tab.url]);
@@ -10,7 +14,7 @@ $("#deletePageNotes").on("click", async () => {
         })
 });
 
-$("#addNewNotes").on("click", async () => {
+$("#addNewNote").on("click", async () => {
     let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     chrome.tabs.sendMessage(tab.id,
         { "exeFun": "newMemo" },
@@ -19,7 +23,7 @@ $("#addNewNotes").on("click", async () => {
         })
 });
 
-$("#showAllNotes").on("click", async () => {
+$("#showOptions").on("click", async () => {
     chrome.runtime.openOptionsPage();
     // chrome.tabs.create({ url: "options/dist/spa/index.html" });
 });
@@ -31,6 +35,10 @@ $("#buyMeACoffee").on("click", async () => {
         console.log(data);
     });
 });
+
+
+
+
 
 // When the button is clicked, inject setPageBackgroundColor into current page
 // clearMemo.addEventListener("click", async () => {

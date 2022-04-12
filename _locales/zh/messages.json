@@ -1,0 +1,20 @@
+{
+    "application_title": {
+        "message": "PageMo"
+    },
+    "application_description": {
+        "message": "这是一个可以在页面添加便签的工具。"
+    },
+    "popup_menu_new_note": {
+        "message": "新便签"
+    },
+    "popup_menu_delete_page_notes": {
+        "message": "删除当前页面便签"
+    },
+    "popup_menu_show_options": {
+        "message": "查看所有便签"
+    },
+    "popup_menu_buy_me_coffee": {
+        "message": "Buy Me A Coffee"
+    }
+}

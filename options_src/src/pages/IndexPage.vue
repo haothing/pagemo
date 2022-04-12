@@ -1,6 +1,6 @@
 <template>
   <q-page class="container">
-    <div class="list-header">
+    <div class="list-header text-body1">
       <p>
         You can use this tool to add notes to any web page, on this page you can
         see all the added notes.
@@ -75,6 +75,8 @@
 
 <script>
 import { defineComponent } from "vue";
+// dummy var fro test
+
 export default defineComponent({
   name: "IndexPage",
   //   setup() {
@@ -91,7 +93,7 @@ export default defineComponent({
     this.init();
   },
   methods: {
-    init: function () {
+    get: function (v, f) {
       // dummy source
       const result = {
         "https://www.google.com/finance/quote/7453:TYO?window=5Y": {
@@ -149,6 +151,13 @@ export default defineComponent({
           ],
         },
       };
+
+      f(result);
+    },
+    init: function () {
+      if (chrome == null || chrome.storage == null) {
+        var chrome = { storage: { sync: { get: this.get } } };
+      }
       chrome.storage.sync.get(null, (result) => {
         console.log(result);
         let memoData = [];
@@ -169,6 +178,9 @@ export default defineComponent({
       window.open(url);
     },
     deleteMemo: function (itemId, memoId) {
+      if (chrome == null || chrome.storage == null) {
+        var chrome = { storage: { sync: { get: this.get } } };
+      }
       let memoData = this.memoData;
       chrome.storage.sync.get(null, (result) => {
         console.log(itemId, memoId, result);
