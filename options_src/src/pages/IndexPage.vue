@@ -2,12 +2,10 @@
   <q-page class="container">
     <div class="list-header text-body1">
       <p>
-        You can use this tool to add notes to any web page, on this page you can
-        see all the added notes.
+        {{ msg.locale.options_title1 }}
       </p>
       <p>
-        Thank you so much for using this tool, and if this helps you please buy
-        me a coffee let me fix bugs and add some cool new features.☕️😄💪
+        {{ msg.locale.options_title2 }}
       </p>
     </div>
     <q-list
@@ -53,7 +51,9 @@
       <q-item v-for="memo in item.memoList" :key="memo.id">
         <q-separator inset />
         <q-item-section>
-          <q-item-label class="memo-item-text">{{ memo.text }}</q-item-label>
+          <q-item-label class="memo-item-text text-body2">{{
+            memo.text
+          }}</q-item-label>
         </q-item-section>
         <q-item-section side>
           <div class="text-grey-8 q-gutter-xs">
@@ -75,15 +75,13 @@
 
 <script>
 import { defineComponent } from "vue";
-// dummy var fro test
+import msg from "src/i18n";
 
 export default defineComponent({
   name: "IndexPage",
-  //   setup() {
-  //     return {
-  //       memoData,
-  //     };
-  //   },
+  setup() {
+    return { msg };
+  },
   data() {
     return {
       memoData: [],
@@ -159,7 +157,6 @@ export default defineComponent({
         var chrome = { storage: { sync: { get: this.get } } };
       }
       chrome.storage.sync.get(null, (result) => {
-        console.log(result);
         let memoData = [];
         let index = 0;
         for (let key in result) {
@@ -183,7 +180,6 @@ export default defineComponent({
       }
       let memoData = this.memoData;
       chrome.storage.sync.get(null, (result) => {
-        console.log(itemId, memoId, result);
         if (memoId != null) {
           for (let i = 0; i < memoData.length; i++) {
             if (memoData[i].id == itemId) {
@@ -225,6 +221,8 @@ export default defineComponent({
 .list-header {
   width: 60%;
   margin: 40px auto 10px auto;
+  font-family: "Arial", -apple-system, Ubuntu, "メイリオ", "ＭＳ Ｐゴシック",
+    "Microsoft YaHei", "DengXian";
 }
 .list-body {
   width: 60%;
