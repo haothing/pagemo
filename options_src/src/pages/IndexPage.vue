@@ -7,6 +7,9 @@
       <p>
         {{ msg.locale.options_title2 }}
       </p>
+      <p>
+        {{ msg.locale.options_title3 }}
+      </p>
     </div>
     <q-list
       bordered
