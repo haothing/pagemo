@@ -6,3 +6,7 @@ Google Chrome　の拡張機能です。
 
 
 ![](manual/1.jpg)
+![](manual/2.jpg)
+![](manual/3.jpg)
+![](manual/4.jpg)
+![](manual/5.jpg)
