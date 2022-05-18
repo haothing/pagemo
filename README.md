@@ -10,4 +10,6 @@ Google Chrome　の拡張機能です。
 ![](manual/3.jpg)
 ![](manual/4.jpg)
 ![](manual/5.jpg)
+
+オプション画面でメモ一覧を確認します。
 ![](manual/2.jpg)
