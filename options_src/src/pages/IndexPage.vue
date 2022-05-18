@@ -153,9 +153,10 @@ export default defineComponent({
       f(result);
     },
     init: function () {
-      if (chrome == null || chrome.storage == null) {
-        var chrome = { storage: { sync: { get: this.get } } };
-      }
+      //   console.log(chrome.storage.sync);
+      //   if (chrome == null || chrome.storage == null) {
+      //     var chrome = { storage: { sync: { get: this.get } } };
+      //   }
       chrome.storage.sync.get(null, (result) => {
         let memoData = [];
         let index = 0;
@@ -175,9 +176,10 @@ export default defineComponent({
       window.open(url);
     },
     deleteMemo: function (itemId, memoId) {
-      if (chrome == null || chrome.storage == null) {
-        var chrome = { storage: { sync: { get: this.get } } };
-      }
+      //   console.log(chrome);
+      //   if (chrome == null || chrome.storage == null) {
+      //     var chrome = { storage: { sync: { get: this.get } } };
+      //   }
       let memoData = this.memoData;
       chrome.storage.sync.get(null, (result) => {
         if (memoId != null) {

@@ -17,7 +17,7 @@ chrome.runtime.onMessage.addListener(
                 initMemo();
             }
         } else {
-            sendResponse({});
+            sendResponse({ result: "success" });
         }
     }
 );
