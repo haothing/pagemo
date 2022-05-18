@@ -5,7 +5,8 @@ Google Chrome　の拡張機能です。
 拡張機能のオプションでメモ一覧を確認できます。
 
 
-![](manual/12.jpg)
+![](manual/1.jpg)
 ![](manual/3.jpg)
 ![](manual/4.jpg)
 ![](manual/5.jpg)
+![](manual/2.jpg)
