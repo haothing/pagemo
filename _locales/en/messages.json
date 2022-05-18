@@ -3,7 +3,7 @@
         "message": "PageMo"
     },
     "application_description": {
-        "message": "The tool to add notes to any web page you like."
+        "message": "Add sticky notes on the page, move the sticky notes to any position on page, you can view all sticky notes in the extension options."
     },
     "popup_menu_new_note": {
         "message": "Add New Note"
@@ -15,6 +15,6 @@
         "message": "Show Notes List"
     },
     "popup_menu_buy_me_coffee": {
-        "message": "Buy Me A Coffee"
+        "message": "Buy Me A Coffee (donate)"
     }
 }

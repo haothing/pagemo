@@ -3,7 +3,7 @@
         "message": "PageMo"
     },
     "application_description": {
-        "message": "在页面任意的添加便签"
+        "message": "在页面添加便签，将标签移动到任意的位置，可以在扩展程序选项中查看所有标签。"
     },
     "popup_menu_new_note": {
         "message": "新便签"
@@ -15,6 +15,6 @@
         "message": "查看所有便签"
     },
     "popup_menu_buy_me_coffee": {
-        "message": "Buy Me A Coffee"
+        "message": "Buy Me A Coffee (donate)"
     }
 }

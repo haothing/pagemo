@@ -3,7 +3,7 @@
         "message": "PageMo"
     },
     "application_description": {
-        "message": "ウェブページにメモを追加"
+        "message": "ウェブページにメモを追加、メモをページ内に自由の場所に配置できます。 拡張機能のオプションでメモ一覧を確認できます。"
     },
     "popup_menu_new_note": {
         "message": "メモを追加"
@@ -15,6 +15,6 @@
         "message": "メモ一覧を表示"
     },
     "popup_menu_buy_me_coffee": {
-        "message": "Buy Me A Coffee"
+        "message": "Buy Me A Coffee (donate)"
     }
 }

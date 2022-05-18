@@ -25,15 +25,14 @@ $("#addNewNote").on("click", async () => {
 
 $("#showOptions").on("click", async () => {
     chrome.runtime.openOptionsPage();
-    // chrome.tabs.create({ url: "options/dist/spa/index.html" });
 });
 
-// TODO change to buy me a coffee
 $("#buyMeACoffee").on("click", async () => {
-    let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-    chrome.storage.sync.get(null, (data) => {
-        console.log(data);
-    });
+    // let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+    // chrome.storage.sync.get(null, (data) => {
+    //     console.log(data);
+    // });
+    chrome.tabs.create({ url: "https://www.buymeacoffee.com/innomi" });
 });
 
 

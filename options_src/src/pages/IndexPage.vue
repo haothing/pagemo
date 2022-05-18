@@ -8,7 +8,11 @@
         {{ msg.locale.options_title2 }}
       </p>
       <p>
-        {{ msg.locale.options_title3 }}
+        {{ msg.locale.options_title3_1
+        }}<a target="_blank" :href="msg.locale.options_buycoffee_link">{{
+          msg.locale.options_title3_2
+        }}</a
+        >{{ msg.locale.options_title3_3 }}
       </p>
     </div>
     <q-list
