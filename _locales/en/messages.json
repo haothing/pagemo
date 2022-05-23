@@ -3,7 +3,7 @@
         "message": "PageMo"
     },
     "application_description": {
-        "message": "Add sticky notes on the page, move the sticky notes to any position on page, you can view all sticky notes in the extension options."
+        "message": "Add sticky notes on any page, move the sticky notes to any position on page. View all sticky notes in the extension options."
     },
     "popup_menu_new_note": {
         "message": "Add New Note"

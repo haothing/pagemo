@@ -3,7 +3,7 @@
         "message": "PageMo"
     },
     "application_description": {
-        "message": "在页面添加便签，将标签移动到任意的位置，可以在扩展程序选项中查看所有标签。"
+        "message": "在任何页面添加便签，将标签移动到任意的位置，可以在扩展程序选项中查看所有标签。"
     },
     "popup_menu_new_note": {
         "message": "新便签"

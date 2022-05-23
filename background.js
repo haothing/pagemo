@@ -1,12 +1,7 @@
 chrome.runtime.onInstalled.addListener(() => {
     console.log('onInstalled');
 });
-// chrome.action.onClicked.addListener((tab) => {
-//     chrome.scripting.executeScript({
-//         target: { tabId: tab.id },
-//         files: ['content.js']
-//     });
-// });
+
 chrome.webNavigation.onHistoryStateUpdated.addListener(function (details) {
     chrome.tabs.sendMessage(details.tabId,
         { "exeFun": "initMemo" },
@@ -34,17 +29,3 @@ chrome.contextMenus.onClicked.addListener(function (itemData, tab) {
             })
     }
 });
-
-// var eventList = ['onBeforeNavigate', 'onCreatedNavigationTarget',
-//     'onCommitted', 'onCompleted', 'onDOMContentLoaded',
-//     'onErrorOccurred', 'onReferenceFragmentUpdated', 'onTabReplaced',
-//     'onHistoryStateUpdated'];
-
-// eventList.forEach(function (e) {
-//     chrome.webNavigation[e].addListener(function (data) {
-//         if (typeof data)
-//             console.log(e);
-//         else
-//             console.error(e);
-//     });
-// });

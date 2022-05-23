@@ -42,6 +42,7 @@ function newMemo() {
         }
     }
 
+    // set memo index to -1 when add new memo
     showEditor(-1);
 }
 
@@ -78,16 +79,26 @@ function showEditor(memoIndex) {
             click: function () {
                 $(".pagemo-editor-container").summernote('destroy');
                 $(".pagemo-editor-container").remove();
-                chrome.storage.sync.get([hrefKey], function (result) {
-                    if (memoIndex >= result[hrefKey]["memoList"].length) {
-                        return;
-                    }
-                    result[hrefKey]["memoList"].splice(memoIndex, 1);
-                    chrome.storage.sync.set({ [hrefKey]: result[hrefKey] }, () => {
-                        initMemo();
-                    });
+                if (memoIndex != -1) {
+                    chrome.storage.sync.get([hrefKey], function (result) {
 
-                });
+                        if (memoIndex >= result[hrefKey]["memoList"].length) {
+                            return;
+                        }
+
+                        result[hrefKey]["memoList"].splice(memoIndex, 1);
+                        if (result[hrefKey]["memoList"].length == 0) {
+                            chrome.storage.sync.remove([hrefKey], () => {
+                                initMemo();
+                            });
+                        } else {
+                            chrome.storage.sync.set({ [hrefKey]: result[hrefKey] }, () => {
+                                initMemo();
+                            });
+                        }
+
+                    });
+                }
             }
         });
         return button.render();   // return button as jquery object
