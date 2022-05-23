@@ -12,6 +12,7 @@ Google Chrome　の拡張機能です。
 オプション画面はVue.js、Quasarで開発しました。その以外の画面、JQueryで実装してます。
 
 chrome web store
+
 https://chrome.google.com/webstore/detail/pagemo/pofjbbchhigcnknnkohmonholngahbgk?utm_source=chrome-ntp-icon
 
 ### メモ編集エディタの機能
