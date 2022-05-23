@@ -27,13 +27,13 @@ Google Chrome　の拡張機能です。
 - ゴミ箱アイコンでメモを削除、サイトごとでメモを削除できます。
 
 
-![](manual/1.jpg)
-![](manual/3.jpg)
-![](manual/4.jpg)
-![](manual/5.jpg)
+![](manual/github/1.jpg)
+![](manual/github/3.jpg)
+![](manual/github/4.jpg)
+![](manual/github/5.jpg)
 
 拡張機能のオプションで全メモの一覧が表示されます。
-![](manual/2.jpg)
+![](manual/github/2.jpg)
 
 
 ※業務委託の関係者がソースを確認するため、リポジトリをパブリックしています。その以外のご利用はご遠慮ください。
