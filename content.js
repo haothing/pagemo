@@ -60,10 +60,12 @@ function showEditor(memoIndex) {
                 $(".pagemo-editor-container").summernote('destroy');
                 $(".pagemo-editor-container").remove();
                 chrome.storage.sync.get([hrefKey], function (result) {
-                    if (memoIndex >= result[hrefKey]["memoList"].length) {
-                        return;
+                    if (result[hrefKey] != null) {
+                        if (memoIndex >= result[hrefKey]["memoList"].length) {
+                            return;
+                        }
+                        drawMemo(memoIndex, result[hrefKey]["memoList"][memoIndex]);
                     }
-                    drawMemo(memoIndex, result[hrefKey]["memoList"][memoIndex]);
                 });
             }
         });
@@ -108,7 +110,8 @@ function showEditor(memoIndex) {
         var ui = $.summernote.ui;
         // create button
         var button = ui.button({
-            contents: '<i id="text_color_icon" class="fa-solid fa-palette"></i>',
+            // contents: '<i id="text_color_icon" class="fa-solid fa-palette"></i>',
+            contents: '<i id="text_color_icon" class="fa-solid fa-a"></i>',
             tooltip: 'Text color',
             click: function () {
             }
@@ -120,7 +123,7 @@ function showEditor(memoIndex) {
         var ui = $.summernote.ui;
         // create button
         var button = ui.button({
-            contents: '<i id="text_bgcolor_icon" class="fa-solid fa-highlighter"></i>',
+            contents: '<i id="text_bgcolor_icon" class="fa-solid fa-paintbrush"></i>',
             tooltip: 'Text background color',
             click: function () {
                 // $(".pagemo-editor-container").summernote('destroy');
@@ -134,7 +137,7 @@ function showEditor(memoIndex) {
         var ui = $.summernote.ui;
         // create button
         var button = ui.button({
-            contents: '<i id="bgcolor_icon" class="fa-solid fa-paint-roller"></i>',
+            contents: '<i id="bgcolor_icon" class="fa-solid fa-palette"></i>',
             tooltip: 'Background color',
             click: function () {
                 // $(".pagemo-editor-container").summernote('destroy');
@@ -225,6 +228,7 @@ function showEditor(memoIndex) {
             $(".note-editable", pagemoEditor).children().first().remove();
         });
     } else {
+        $( pagemoEditor).css({top: currentMousePos.preY, left: currentMousePos.preX, position:'absolute'});
         pagemoEditor.show();
     }
 
@@ -240,7 +244,8 @@ function showEditor(memoIndex) {
         showAlpha: false,
         change: function (color) {
             $(".pagemo-editor-container").summernote('foreColor', color);
-            $('#text_color_icon').css("color", color);
+            $("#text_color_icon", pagemoEditor).css('border-bottom-color', color);
+            $('#text_color_icon', pagemoEditor).css("color", color);
         }
     });
 
@@ -459,5 +464,12 @@ function drawMemo(memoDivId, memoInfo) {
 function clearPageMemo() {
     $(".pagemo-memo").remove();
 }
+
+// Save two position elements in array, set memo dialog to second-to-last position.
+let currentMousePos = {};
+function mouseListener(event) {
+    currentMousePos = {x: event.pageX, y :event.pageY, preX: currentMousePos.x, preY: currentMousePos.y};
+}
+$(document).mousemove(mouseListener);
 
 initMemo();
